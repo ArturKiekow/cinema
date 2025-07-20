@@ -8,16 +8,24 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public record CreateUserResponseDto(
         String username,
         String cpf,
         LocalDate birthDate,
         String email,
-        Set<Role> roles) { //RETORNAR DTO DE ROLES
+        Set<RoleResponseDto> roles) { //RETORNAR DTO DE ROLES
 
     public static CreateUserResponseDto fromEntity(User user){
-        return new CreateUserResponseDto(user.getUsername(), user.getCpf(), user.getBirthDate(), user.getEmail(), user.getRoles());
+        return new CreateUserResponseDto(
+                user.getUsername(),
+                user.getCpf(),
+                user.getBirthDate(),
+                user.getEmail(),
+                user.getRoles()
+                        .stream()
+                        .map(role -> new RoleResponseDto(role.getRoleName())).collect(Collectors.toSet()));
     }
 
 }

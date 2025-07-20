@@ -1,6 +1,6 @@
 package com.arturFerreira.cinema.services;
 
-import com.arturFerreira.cinema.entity.UserAuthenticated;
+import com.arturFerreira.cinema.entity.CustomUserDetails;
 import com.arturFerreira.cinema.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +18,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
-                .map(UserAuthenticated::new)
+                .map(CustomUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not Found"));
     }
 }
