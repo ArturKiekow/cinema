@@ -12,7 +12,7 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "movie_id")
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "name")
@@ -24,7 +24,10 @@ public class Movie {
     @Column(name = "duration_in_minutes")
     private Integer durationInMinutes;
 
-    @ManyToMany()
+    @OneToMany(mappedBy = "movie")
+    private Set<Session> sessions;
+
+    @ManyToMany
     @JoinTable(
             name = "movie_genres",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -73,5 +76,13 @@ public class Movie {
 
     public void addGenre(MovieGenre genre) {
         this.genres.add(genre);
+    }
+
+    public Set<Session> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(Set<Session> sessions) {
+        this.sessions = sessions;
     }
 }

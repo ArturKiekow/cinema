@@ -10,10 +10,10 @@ public class MovieGenre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "genre_id")
+    @Column(name = "id")
     private Long Id;
 
-    @Column(name = "genre_name")
+    @Column(name = "name")
     private String genreName;
 
     @ManyToMany(mappedBy = "genres")
@@ -68,6 +68,10 @@ public class MovieGenre {
 
         public Long getGenreId() {
             return genreId;
+        }
+
+        public String getGenreName() {
+            return genreName;
         }
     }
 
