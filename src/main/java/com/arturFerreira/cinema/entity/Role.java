@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "tb_roles")
+@Table(name = "roles")
 public class Role {
 
     @Id

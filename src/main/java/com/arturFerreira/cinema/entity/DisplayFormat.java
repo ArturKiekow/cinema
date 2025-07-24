@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "tb_display_formats")
+@Table(name = "display_formats")
 public class DisplayFormat {
 
     @Id

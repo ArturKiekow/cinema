@@ -7,7 +7,7 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name = "tb_movies")
+@Table(name = "movies")
 public class Movie {
 
     @Id

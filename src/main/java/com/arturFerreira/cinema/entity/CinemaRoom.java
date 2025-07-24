@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "tb_rooms")
+@Table(name = "rooms")
 public class CinemaRoom {
 
     @Id
@@ -21,7 +21,7 @@ public class CinemaRoom {
 
     @ManyToMany
     @JoinTable(
-            name = "room_type",
+            name = "room_display_formats",
             joinColumns = @JoinColumn(name = "room_id"),
             inverseJoinColumns = @JoinColumn(name = "type_id")
     )
