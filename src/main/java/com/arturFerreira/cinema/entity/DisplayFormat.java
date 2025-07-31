@@ -2,6 +2,7 @@ package com.arturFerreira.cinema.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -10,14 +11,14 @@ public class DisplayFormat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @ManyToMany(mappedBy = "types")
-    private Set<CinemaRoom> rooms;
+    private Set<CinemaRoom> rooms = new HashSet<>();
 
     public DisplayFormat() {
     }

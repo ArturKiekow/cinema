@@ -2,6 +2,7 @@ package com.arturFerreira.cinema.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -10,14 +11,14 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long roleID;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String roleName;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<User> userList;
+    private Set<User> userList = new HashSet<>();
 
     public Role() {
     }

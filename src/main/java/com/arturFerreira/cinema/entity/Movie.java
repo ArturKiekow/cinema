@@ -2,6 +2,7 @@ package com.arturFerreira.cinema.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -12,20 +13,20 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private UUID id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = true)
     private String description;
 
-    @Column(name = "duration_in_minutes")
+    @Column(name = "duration_in_minutes", nullable = false)
     private Integer durationInMinutes;
 
     @OneToMany(mappedBy = "movie")
-    private Set<Session> sessions;
+    private Set<Session> sessions = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -33,7 +34,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
-    private Set<MovieGenre> genres;
+    private Set<Genre> genres = new HashSet<>();
 
     public Movie() {
     }
@@ -66,15 +67,15 @@ public class Movie {
         this.durationInMinutes = durationInMinutes;
     }
 
-    public Set<MovieGenre> getGenres() {
+    public Set<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(Set<MovieGenre> genres) {
+    public void setGenres(Set<Genre> genres) {
         this.genres = genres;
     }
 
-    public void addGenre(MovieGenre genre) {
+    public void addGenre(Genre genre) {
         this.genres.add(genre);
     }
 

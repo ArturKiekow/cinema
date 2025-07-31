@@ -11,10 +11,10 @@ public class Session {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "session_id")
+    @Column(name = "session_id", nullable = false)
     private UUID id;
 
-    @Column(name = "date_time")
+    @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
 
     @ManyToOne

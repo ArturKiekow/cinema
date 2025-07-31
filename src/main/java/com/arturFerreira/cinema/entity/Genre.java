@@ -2,35 +2,36 @@ package com.arturFerreira.cinema.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "genres")
-public class MovieGenre {
+public class Genre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long Id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String genreName;
 
     @ManyToMany(mappedBy = "genres")
-    private Set<Movie> movies;
+    private Set<Movie> movies = new HashSet<>();
 
-    public MovieGenre() {
+    public Genre() {
     }
 
     public Long getId() {
         return Id;
     }
 
-    public String getGenre() {
+    public String getGenreName() {
         return genreName;
     }
 
-    public void setGenre(String genre) {
+    public void setGenreName(String genre) {
         this.genreName = genre;
     }
 

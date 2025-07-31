@@ -2,6 +2,7 @@ package com.arturFerreira.cinema.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -10,14 +11,14 @@ public class CinemaRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "number")
+    @Column(name = "number", nullable = false)
     private Integer number;
 
     @OneToMany(mappedBy = "room")
-    private Set<Session> sessions;
+    private Set<Session> sessions = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
