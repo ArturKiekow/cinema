@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.Set;
 
-public record CreateMovieDto(
+public record MovieDto(
         @NotBlank
         String name,
         String description,

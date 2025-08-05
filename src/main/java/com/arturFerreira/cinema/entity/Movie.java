@@ -79,6 +79,18 @@ public class Movie {
         this.genres.add(genre);
     }
 
+    public void addGenre(Set<Genre> genres) {
+        this.genres.addAll(genres);
+    }
+
+    public void removeGenre(Genre genre) {
+        this.genres.remove(genre);
+    }
+
+    public void removeGenre(Set<Genre> genres) {
+        this.genres.removeAll(genres);
+    }
+
     public Set<Session> getSessions() {
         return sessions;
     }

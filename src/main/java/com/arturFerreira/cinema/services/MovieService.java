@@ -1,6 +1,7 @@
 package com.arturFerreira.cinema.services;
 
-import com.arturFerreira.cinema.controller.dto.movieDtos.CreateMovieDto;
+import com.arturFerreira.cinema.controller.dto.movieDtos.GenresRequestDto;
+import com.arturFerreira.cinema.controller.dto.movieDtos.MovieDto;
 import com.arturFerreira.cinema.exceptions.MovieNotFoundException;
 import com.arturFerreira.cinema.entity.Movie;
 import com.arturFerreira.cinema.repository.GenreRepository;
@@ -23,11 +24,8 @@ public class MovieService {
     }
 
     public Movie getMovie(UUID id) {
-        var movie = movieRepository.findById(id);
-        if(movie.isPresent()){
-            return movie.get();
-        }
-        throw new MovieNotFoundException("Não existe filme com o id:" + id);
+        return movieRepository.findById(id)
+                .orElseThrow(() -> new MovieNotFoundException("Não existe filme com o id:" + id));
     }
 
     public List<Movie> getAllMovies(){
@@ -35,7 +33,7 @@ public class MovieService {
     }
 
 
-    public Movie createMovie(CreateMovieDto dto) {
+    public Movie createMovie(MovieDto dto) {
         var genres = dto.genres()
                 .stream()
                 .map(genreRepository::findByGenreName)
@@ -50,10 +48,58 @@ public class MovieService {
         return movieRepository.save(movie);
     }
 
+    public Movie updateMovie(UUID id, MovieDto dto) {
+        var movie = movieRepository.findById(id)
+                .orElseThrow(() -> new MovieNotFoundException("Não existe filme com o id:" + id));
+
+        var genres = dto.genres()
+                .stream()
+                .map(genreRepository::findByGenreName)
+                .collect(Collectors.toSet());
+
+        movie.setName(dto.name());
+        movie.setDurationInMinutes(dto.durationInMinutes());
+        movie.setDescription(dto.description());
+        movie.setGenres(genres);
+        System.out.print(movie);
+
+        return movieRepository.save(movie);
+    }
+
+    public Movie addGenres(UUID id, GenresRequestDto genres) {
+        var movie = movieRepository.findById(id)
+                .orElseThrow(() -> new MovieNotFoundException("Não existe filme com o id:" + id));
+
+        var genresBd = genres.genreNames()
+                .stream()
+                .map(genreRepository::findByGenreName)
+                .collect(Collectors.toSet());
+        movie.addGenre(genresBd);
+
+        return movieRepository.save(movie);
+    }
+
+    public Movie removeGenres(UUID id, GenresRequestDto genres) {
+        var movie = movieRepository.findById(id)
+                .orElseThrow(() -> new MovieNotFoundException("Não existe filme com o id:" + id));
+
+        var genresBd = genres.genreNames()
+                .stream()
+                .map(genreRepository::findByGenreName)
+                .collect(Collectors.toSet());
+
+        movie.removeGenre(genresBd);
+
+        return movieRepository.save(movie);
+    }
+
+
     public void deleteById(UUID id) {
         if (!movieRepository.existsById(id)) {
             throw new MovieNotFoundException("Não existe filme com o id:" + id);
         }
         movieRepository.deleteById(id);
     }
+
+
 }

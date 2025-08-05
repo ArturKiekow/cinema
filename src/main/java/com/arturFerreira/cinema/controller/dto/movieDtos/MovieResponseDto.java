@@ -7,24 +7,31 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public record CreateMovieResponseDto(
+public record MovieResponseDto(
         UUID id,
         String name,
         String description,
         Integer durationInMinutes,
-        Set<GenreResponseDto> genres
+        Set<GenreResponseDto> genres,
+        Set<SessionInMovieResponseDto> sessions
 ) {
-    public static CreateMovieResponseDto fromClass(Movie movie){
+    public static MovieResponseDto fromClass(Movie movie) {
         var genres = movie.getGenres()
                 .stream()
                 .map(GenreResponseDto::fromClass)
                 .collect(Collectors.toSet());
 
-        return new CreateMovieResponseDto(
-                movie.getId(),
-                movie.getName(),
-                movie.getDescription(),
+        var sessions = movie.getSessions()
+                .stream()
+                .map(SessionInMovieResponseDto::fromClass)
+                .collect(Collectors.toSet());
+
+        return new MovieResponseDto(
+                movie.getId(), 
+                movie.getName(), 
+                movie.getDescription(), 
                 movie.getDurationInMinutes(),
-                genres);
+                genres,
+                sessions);
     }
 }
