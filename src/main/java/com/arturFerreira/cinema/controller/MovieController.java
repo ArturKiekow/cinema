@@ -23,8 +23,11 @@ public class MovieController {
 
     @GetMapping
     public ResponseEntity<List<GetAllMoviesDto>> getAllMovies() {
-        var movies = movieService.getAllMovies();
-        return ResponseEntity.ok(movies.stream().map(GetAllMoviesDto::fromClass).toList());
+        var movies = movieService.getAllMovies()
+                .stream()
+                .map(GetAllMoviesDto::fromClass)
+                .toList();
+        return ResponseEntity.ok(movies);
     }
 
     @GetMapping("/{id}")
