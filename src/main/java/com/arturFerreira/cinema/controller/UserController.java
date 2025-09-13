@@ -1,13 +1,13 @@
 package com.arturFerreira.cinema.controller;
 
-import com.arturFerreira.cinema.controller.dto.CreateUserDto;
+import com.arturFerreira.cinema.controller.dto.userDtos.CreateUserDto;
 import com.arturFerreira.cinema.controller.dto.CreateUserResponseDto;
 import com.arturFerreira.cinema.controller.dto.userDtos.GetAllUsers;
-import com.arturFerreira.cinema.entity.User;
+import com.arturFerreira.cinema.controller.dto.userDtos.UpdateUserDto;
 import com.arturFerreira.cinema.services.UserService;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -56,5 +56,18 @@ public class UserController {
         var user = userService.getUserByUsername(username);
         return ResponseEntity.ok(GetAllUsers.fromClass(user));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<GetAllUsers> updateUserById(@PathVariable UUID id, @RequestBody @Valid UpdateUserDto dto) {
+        var user = userService.updateUserById(id, dto);
+        return ResponseEntity.ok(GetAllUsers.fromClass(user));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUserById(@PathVariable UUID id) {
+        userService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }

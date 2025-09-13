@@ -37,15 +37,14 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-
+        
         httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST,"/users").permitAll()
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                        .requestMatchers(HttpMethod.GET).authenticated()
-                        .anyRequest().hasRole(Role.Values.ADMIN.name()))
+                        .requestMatchers(HttpMethod.POST,"/users").permitAll()
+                        .anyRequest().authenticated())
                 .oauth2ResourceServer(
                         conf -> conf.jwt(Customizer.withDefaults()));
 
