@@ -5,6 +5,7 @@ import com.arturFerreira.cinema.controller.dto.userDtos.UpdateUserDto;
 import com.arturFerreira.cinema.entity.Role;
 import com.arturFerreira.cinema.entity.User;
 import com.arturFerreira.cinema.exceptions.CinemaException;
+import com.arturFerreira.cinema.exceptions.UserNotAllowedException;
 import com.arturFerreira.cinema.exceptions.UserNotFoundException;
 import com.arturFerreira.cinema.exceptions.UsernameOrEmailAlreadyExistsException;
 import com.arturFerreira.cinema.repository.RoleRepository;
@@ -77,8 +78,8 @@ public class UserService {
         var user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
 
-        if (!(user.getUsername().equals(jwt.getSubject()) || jwt.getClaim("scope").equals(Role.Values.ADMIN.name()))) {
-            throw new CinemaException("Você não pode modificar uma conta que não é sua");
+        if (!(Objects.equals(user.getUsername(), jwt.getSubject()) || Objects.equals(jwt.getClaim("scope"), Role.Values.ADMIN.name()))) {
+            throw new UserNotAllowedException("Você não pode modificar uma conta que não é sua");
         }
 
         if (!Objects.equals(user.getUsername(), dto.username()) && userRepository.findByUsername(dto.username()).isPresent()){
@@ -102,8 +103,8 @@ public class UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Jwt jwt = (Jwt) authentication.getPrincipal();
 
-        if (!(Objects.equals(user.getUsername(), jwt.getSubject()) || jwt.getClaim("scope").equals(Role.Values.ADMIN.name()))) {
-            throw new CinemaException("Você não pode excluir uma conta que não é sua");
+        if (!(Objects.equals(user.getUsername(), jwt.getSubject()) || Objects.equals(jwt.getClaim("scope"), Role.Values.ADMIN.name()))) {
+            throw new UserNotAllowedException("Você não pode excluir uma conta que não é sua");
         }
 
         userRepository.deleteById(id);

@@ -9,7 +9,7 @@ public class UsernameOrEmailAlreadyExistsException extends CinemaException {
     }
 
     public UsernameOrEmailAlreadyExistsException() {
-        super("Username or Email already exists");
+        super("Username ou Email já existe");
     }
 
     @Override
