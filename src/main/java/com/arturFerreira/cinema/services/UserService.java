@@ -78,7 +78,7 @@ public class UserService {
         var user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
 
-        if (!(Objects.equals(user.getUsername(), jwt.getSubject()) || Objects.equals(jwt.getClaim("scope"), Role.Values.ADMIN.name()))) {
+        if (!(Objects.equals(user.getId().toString(), jwt.getSubject()) || Objects.equals(jwt.getClaim("scope"), Role.Values.ADMIN.name()))) {
             throw new UserNotAllowedException("Você não pode modificar uma conta que não é sua");
         }
 
@@ -103,7 +103,7 @@ public class UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Jwt jwt = (Jwt) authentication.getPrincipal();
 
-        if (!(Objects.equals(user.getUsername(), jwt.getSubject()) || Objects.equals(jwt.getClaim("scope"), Role.Values.ADMIN.name()))) {
+        if (!(Objects.equals(user.getId().toString(), jwt.getSubject()) || Objects.equals(jwt.getClaim("scope"), Role.Values.ADMIN.name()))) {
             throw new UserNotAllowedException("Você não pode excluir uma conta que não é sua");
         }
 

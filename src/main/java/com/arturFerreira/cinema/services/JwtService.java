@@ -32,7 +32,7 @@ public class JwtService {
                 .issuer("cinema-backend")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expire))
-                .subject(user.getUsername())
+                .subject(user.getId().toString())
                 .claim("scope", scopes)
                 .build();
 
